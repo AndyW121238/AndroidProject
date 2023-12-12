@@ -23,6 +23,7 @@ public class OrderAdapter extends BaseQuickAdapter<Order, BaseViewHolder> {
         baseViewHolder.setText(R.id.orderName, order.getName());
         baseViewHolder.setImageResource(R.id.orderImage, order.getImage());
         baseViewHolder.setText(R.id.orderTime, "下单时间: " + order.getTime());
+        baseViewHolder.setText(R.id.orderCount,"数量："+order.getCount());
         baseViewHolder.setText(R.id.orderMoney, "总价: ￥" + order.getMoney());
     }
 }

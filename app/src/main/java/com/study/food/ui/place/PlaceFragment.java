@@ -3,6 +3,7 @@ package com.study.food.ui.place;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +23,10 @@ import com.study.food.R;
 import com.study.food.activity.DetailActivity;
 import com.study.food.adaptor.PlaceOrderAdapter;
 import com.study.food.dao.OrderDao;
+import com.study.food.dao.UserDao;
 import com.study.food.model.Order;
 import com.study.food.model.Snack;
+import com.study.food.model.User;
 import com.study.food.utils.Tips;
 
 import java.math.BigDecimal;
@@ -60,18 +63,13 @@ public class PlaceFragment extends Fragment implements View.OnClickListener{
         // 每次页面显示都计算合计金额
         calcTotalMoney();
     }
-
-    /**
-     * 初始化购物车列表适配器
-     */
+    //初始化购物车列表适配器
     @SuppressLint("NotifyDataSetChanged")
     private void initOrderAdapter() {
         // 实例化购物车列表适配器对象
         orderAdapter = new PlaceOrderAdapter(MyApplication.getCartSnacks());
-
         // 设置空布局
         orderAdapter.setEmptyView(getEmptyView());
-
         // 设置动画效果
         orderAdapter.setAnimationEnable(true);
         orderAdapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.ScaleIn);
@@ -105,9 +103,7 @@ public class PlaceFragment extends Fragment implements View.OnClickListener{
         orderRecyclerView.setAdapter(orderAdapter);
     }
 
-    /**
-     * 点击下单按钮事件触发器
-     */
+    //点击下单按钮事件触发器
     void initClick() {
         if (MyApplication.getCartSnacks().isEmpty()) {
             Tips.show("购物车是空的啦！！！");
@@ -120,53 +116,44 @@ public class PlaceFragment extends Fragment implements View.OnClickListener{
             }
         }
     }
-
-    /**
-     * 显示下单备注提示框
-     */
+    //显示下单备注提示框
     @SuppressLint({"InflateParams", "NotifyDataSetChanged"})
     public void showDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = requireActivity().getLayoutInflater();
-
         builder.setView(inflater.inflate(R.layout.dialog_view, null))
                 .setTitle("备注")
                 .setPositiveButton("下单", (dialog, which) -> {
                     // 持久化订单数据
                     saveOrder();
-
                     // 清空购物车数据
                     MyApplication.getCartSnacks().removeAll(MyApplication.getCartSnacks());
                     // 通知适配器数据变化
                     orderAdapter.notifyDataSetChanged();
                     // 刷新总金额
                     calcTotalMoney();
-
                     Tips.show("下单成功");
                 })
                 .create()
                 .show();
     }
 
-    /**
-     * 持久化订单数据
-     */
+    //持久化订单数据
     public void saveOrder() {
-        List<Order> orders = new ArrayList<>();
-        // 购物车数据产生订单
-        for (Snack snack : MyApplication.getCartSnacks()) {
-            Order order = new Order(snack);
-            order.setUsername(MyApplication.getUser().getUsername());
-            orders.add(order);
-        }
-
-        OrderDao.saveOrder(orders);
+        //OrderDao.saveOrder(orders);
+        new Thread(()->{
+            List<Order> orders = new ArrayList<>();
+            // 购物车数据产生订单
+            for (Snack snack : MyApplication.getCartSnacks()) {
+                Order order = new Order(snack,MyApplication.getUser().getUsername());
+                order.setUsername(MyApplication.getUser().getUsername());
+                orders.add(order);
+            }
+            OrderDao.insertOrder(orders);
+        }).start();
     }
 
-    /**
-     * 点击垃圾桶事件触发器
-     */
-    //@OnClick(R.id.deleteOrder)
+    //点击垃圾桶事件触发器
     void deleteOrder() {
         if (MyApplication.getCartSnacks().isEmpty()) {
             Tips.show("购物车是空的");
@@ -181,7 +168,6 @@ public class PlaceFragment extends Fragment implements View.OnClickListener{
                         orderAdapter.notifyDataSetChanged();
                         // 刷新总金额
                         calcTotalMoney();
-
                         Tips.show("已清空购物车");
                     })
                     .create()
@@ -206,13 +192,10 @@ public class PlaceFragment extends Fragment implements View.OnClickListener{
         placeMoney.setText("￥" + totalMoney.doubleValue());
     }
 
-    /**
-     * 下单页面购物车空布局
-     */
+    //下单页面购物车空布局
     private View getEmptyView() {
         return getLayoutInflater().inflate(R.layout.empty_cart_view, orderRecyclerView, false);
     }
-
     @Override
     public void onClick(View v) {
         if(v.getId()==R.id.placeBuyBtn){

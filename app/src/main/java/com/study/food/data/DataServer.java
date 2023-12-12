@@ -149,13 +149,4 @@ public class DataServer {
 //        }
         return accountList;
     }
-
-    public static List<Order> getOrderTest() {
-        @SuppressLint("SimpleDateFormat") SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return new ArrayList<Order>() {{
-            add(new Order("是我", R.mipmap.zhajiangmian, 10.9, simpleDateFormat.format(new Date())));
-            add(new Order("是我", R.mipmap.zhajiangmian, 10.9, simpleDateFormat.format(new Date())));
-            add(new Order("是我", R.mipmap.zhajiangmian, 10.9, simpleDateFormat.format(new Date())));
-        }};
-    }
 }

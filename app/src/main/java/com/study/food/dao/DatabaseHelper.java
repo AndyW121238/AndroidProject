@@ -19,6 +19,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 "id integer primary key autoincrement," +
                 "name text," +
                 "image integer," +
+                "count integer,"+
                 "money real," +
                 "time text," +
                 "username text)";
