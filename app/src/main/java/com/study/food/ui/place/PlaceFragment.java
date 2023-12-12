@@ -3,6 +3,7 @@ package com.study.food.ui.place;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -141,18 +142,17 @@ public class PlaceFragment extends Fragment implements View.OnClickListener{
     //持久化订单数据
     public void saveOrder() {
         //OrderDao.saveOrder(orders);
+        List<Order> orders = new ArrayList<>();
+        // 购物车数据产生订单
+        for (Snack snack : MyApplication.getCartSnacks()) {
+            Order order = new Order(snack,MyApplication.getUser().getUsername());
+            order.setUsername(MyApplication.getUser().getUsername());
+            orders.add(order);
+        }
         new Thread(()->{
-            List<Order> orders = new ArrayList<>();
-            // 购物车数据产生订单
-            for (Snack snack : MyApplication.getCartSnacks()) {
-                Order order = new Order(snack,MyApplication.getUser().getUsername());
-                order.setUsername(MyApplication.getUser().getUsername());
-                orders.add(order);
-            }
             OrderDao.insertOrder(orders);
         }).start();
     }
-
     //点击垃圾桶事件触发器
     void deleteOrder() {
         if (MyApplication.getCartSnacks().isEmpty()) {

@@ -40,16 +40,16 @@ public class OrderActivity extends AppCompatActivity {
         initAdapter();
     }
     //初始化订单页面
-    List<Order> orders;
+
     private void initAdapter() {
         // 获取数据库数据
-        //List<Order> orders = OrderDao.findAllByUsername(MyApplication.getUser().getUsername());
         new Thread(()->{
+            List<Order> orders;
             orders = OrderDao.selectOrder(MyApplication.getUser().getUsername());
-            OrderAdapter adapter = new OrderAdapter(orders);
-            // 设置空布局
-            adapter.setEmptyView(getEmptyView());
-            orderRecyclerView.setAdapter(adapter);
+            Message message=handler.obtainMessage();
+            message.what=0x11;
+            message.obj=orders;
+            handler.sendMessage(message);
         }).start();
     }
     @SuppressLint("HandlerLeak")
@@ -58,8 +58,11 @@ public class OrderActivity extends AppCompatActivity {
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 0x11:
-                    break;
-                case 0x12:
+                    List<Order> orders= (List<Order>) msg.obj;
+                    OrderAdapter adapter = new OrderAdapter(orders);
+                    // 设置空布局
+                    adapter.setEmptyView(getEmptyView());
+                    orderRecyclerView.setAdapter(adapter);
                     break;
             }
         }
