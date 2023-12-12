@@ -11,9 +11,6 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.blankj.utilcode.util.CacheDiskUtils;
-import com.google.gson.Gson;
-import com.study.food.MyApplication;
 import com.study.food.R;
 import com.study.food.dao.UserDao;
 import com.study.food.model.User;

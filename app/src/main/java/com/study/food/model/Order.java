@@ -2,7 +2,6 @@ package com.study.food.model;
 
 import android.annotation.SuppressLint;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

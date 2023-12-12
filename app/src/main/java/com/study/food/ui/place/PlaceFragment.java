@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,8 +39,7 @@ public class PlaceFragment extends Fragment implements View.OnClickListener{
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         placeViewModel = ViewModelProviders.of(this).get(PlaceViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_place, container, false);
-        return root;
+        return inflater.inflate(R.layout.fragment_place, container, false);
     }
 
     @Override
@@ -66,6 +64,7 @@ public class PlaceFragment extends Fragment implements View.OnClickListener{
     /**
      * 初始化购物车列表适配器
      */
+    @SuppressLint("NotifyDataSetChanged")
     private void initOrderAdapter() {
         // 实例化购物车列表适配器对象
         orderAdapter = new PlaceOrderAdapter(MyApplication.getCartSnacks());
@@ -75,16 +74,11 @@ public class PlaceFragment extends Fragment implements View.OnClickListener{
 
         // 设置动画效果
         orderAdapter.setAnimationEnable(true);
-//        orderAdapter.setAnimationFirstOnly(false);
         orderAdapter.setAnimationWithDefault(BaseQuickAdapter.AnimationType.ScaleIn);
-
         // 点击item事件触发
-        orderAdapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(@NonNull BaseQuickAdapter<?, ?> adapter, @NonNull View view, int position) {
-                Snack snack = (Snack) adapter.getItem(position);
-                DetailActivity.actionStart(getContext(), snack);
-            }
+        orderAdapter.setOnItemClickListener((adapter, view, position) -> {
+            Snack snack = (Snack) adapter.getItem(position);
+            DetailActivity.actionStart(getContext(), snack);
         });
 
         // 注册item内子控件id

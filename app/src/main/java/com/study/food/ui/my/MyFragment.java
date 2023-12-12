@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -26,7 +25,6 @@ import com.study.food.utils.Tips;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import java.util.Objects;
 
 public class MyFragment extends Fragment implements View.OnClickListener{
     private MyViewModel myViewModel;

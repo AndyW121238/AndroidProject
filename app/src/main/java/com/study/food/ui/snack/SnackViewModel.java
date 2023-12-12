@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel;
 
 public class SnackViewModel extends ViewModel {
 
-    private MediatorLiveData<String> mText;
+    private final MediatorLiveData<String> mText;
 
     public SnackViewModel() {
         mText = new MediatorLiveData<>();

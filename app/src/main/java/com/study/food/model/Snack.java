@@ -1,9 +1,6 @@
 package com.study.food.model;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.io.Serializable;
-import java.util.Objects;
 
 //食品类
 public class Snack implements Serializable {
