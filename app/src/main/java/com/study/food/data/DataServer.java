@@ -1,15 +1,11 @@
 package com.study.food.data;
 
-import android.annotation.SuppressLint;
 
 import com.study.food.R;
-import com.study.food.model.Order;
 import com.study.food.model.Snack;
 import com.study.food.model.User;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class DataServer {
