@@ -1,12 +1,6 @@
 package com.study.food.dao;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-
 import com.study.food.model.Order;
-import com.study.food.model.User;
-import com.study.food.utils.Utils;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

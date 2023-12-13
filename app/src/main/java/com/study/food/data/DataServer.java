@@ -133,16 +133,4 @@ public class DataServer {
         }
         return chongqingList;
     }
-
-    /**
-     * 用户账号信息
-     */
-    public static List<User> getAccountList() {
-//        if (accountList == null) {
-//            accountList = new ArrayList<User>() {{
-//                add(new User("jkl", "123456", "杰阔爱", R.mipmap.ic_login));
-//            }};
-//        }
-        return accountList;
-    }
 }
